@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="apple-mobile-web-app-capable" content="yes" /> <!-- Отключение zoom на iOS -->
+  <title>DKM-Shop.by | Интернет-магазин техники</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+      -webkit-tap-highlight-color: transparent; /* Убирает подсветку при нажатии */
+    }
+    body {
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.8);
+    }
+    .category {
+      background: #00A86B;
+      color: white;
+      padding: 1.5rem 2rem;
+      border-radius: 8px;
+      text-align: center;
+      width: calc(20% - 1rem);
+      cursor: pointer;
+      transition: background 0.3s ease;
+      user-select: none; /* Запрет выделения текста при касании */
+      touch-action: manipulation; /* Оптимизация для касаний */
+    }
+    .category:hover {
+      background: #008F57;
+    }
+    .form-section {
+      max-width: 500px;
+      margin: 3rem auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px; /* Увеличиваем для мобильных */
+    }
+    button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 1rem; /* Увеличиваем для мобильных */
+      background: #0033A0;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      touch-action: manipulation; /* Оптимизация для касаний */
+    }
+    footer {
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 3rem;
+    }
+    @media (max-width: 600px) {
+      .category {
+        width: 100%;
+      }
+      button {
+        padding: 1.2rem; /* Еще больше для мобильных */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Шапка -->
+  <header>
+    <h1>DKM-Shop.by</h1>
+    <p>Одобрения 99,7%, даже если отказали в банке</p>
+  </header>
+
+  <!-- Категории -->
+  <nav id="categories">
+    <div class="category" data-category="Телевизоры">Телевизоры</div>
+    <div class="category" data-category="Духовые шкафы">Духовые шкафы</div>
+    <div class="category" data-category="Стиральные машины">Стиральные машины</div>
+    <div class="category" data-category="Посудомоечные машины">Посудомоечные машины</div>
+    <div class="category" data-category="Телефоны">Телефоны</div>
+    <div class="category" data-category="Варочные панели">Варочные панели</div>
+    <div class="category" data-category="Портативные колонки">Портативные колонки</div>
+    <div class="category" data-category="Холодильники">Холодильники</div>
+    <div class="category" data-category="Микроволновые печи">Микроволновые печи</div>
+    <div class="category" data-category="Пылесосы">Пылесосы</div>
+  </nav>
+
+  <!-- Форма заявки -->
+  <section class="form-section" id="formSection" style="display: none;">
+    <h2>Заполните форму обратной связи для подбора подходящей модели</h2>
+    <form id="requestForm">
+      <input type="hidden" id="categoryInput" name="category" value="" />
+      <input type="hidden" id="currentStep" value="1">
+      <!-- Бюджет -->
+      <div id="step1" class="quiz-step">
+        <label for="budget">На какой бюджет рассчитываете?</label>
+        <select id="budget" name="budget">
+          <option value="">Выберите вариант</option>
+          <option value="менее_1000">менее 1000 рублей</option>
+          <option value="2000-4000">2000-4000 BYN</option>
+          <option value="5000-6000">5000-6000 BYN</option>
+          <option value="более_6000">более 6000 BYN</option>
+        </select>
+        <button type="button" class="next-btn" data-next="2">Далее</button>
+      </div>
+      <!-- Срок рассрочки -->
+      <div id="step2" class="quiz-step" style="display: none;">
+        <label for="term">На какой срок планируете взять рассрочку?</label>
+        <select id="term" name="term">
+          <option value="">Выберите вариант</option>
+          <option value="менее_6_мес">менее 6 месяцев</option>
+          <option value="6-12_мес">6-12 месяцев</option>
+          <option value="24-36_мес">24-36 месяцев</option>
+          <option value="48-60_мес">48-60 месяцев</option>
+          <option value="более_60_мес">более 60 месяцев</option>
+        </select>
+        <button type="button" class="next-btn" data-next="3">Далее</button>
+      </div>
+      <!-- Ежемесячные платежи -->
+      <div id="step3" class="quiz-step" style="display: none;">
+        <label for="monthly_payment">Сколько готовы выплачивать ежемесячно?</label>
+        <select id="monthly_payment" name="monthly_payment">
+          <option value="">Выберите вариант</option>
+          <option value="менее_50">менее 50 рублей</option>
+          <option value="50-100">50-100 рублей</option>
+          <option value="100-150">100-150 рублей</option>
+          <option value="более_200">более 200 рублей</option>
+        </select>
+        <button type="button" class="next-btn" data-next="4">Далее</button>
+      </div>
+      <!-- Контактная информация -->
+      <div id="step4" class="quiz-step" style="display: none;">
+        <label for="name">Имя</label>
+        <input type="text" id="name" name="name" placeholder="Ваше имя" required />
+        <label for="phone">Телефон</label>
+        <div style="position: relative;">
+          <span style="position: absolute; top: 10px; left: 10px; color: #aaa;">+375</span>
+          <input type="tel"
+                 id="phone"
+                 name="phone"
+                 placeholder="Введите последние 9 цифр"
+                 maxlength="9"
+                 minlength="9"
+                 oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 9) this.value = this.value.slice(0, 9)"
+                 required
+                 style="padding-left: 50px;" />
+        </div>
+        <small>Введите 9 цифр после +375</small>
+        <button type="submit">Отправить заявку</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Сообщение об успешной отправке -->
+  <section class="form-section" id="successMessage" style="display: none; text-align: center;">
+    <h2>Ваша заявка принята!</h2>
+    <p style="font-size: 0.9rem;">С вами свяжутся в течение 15 минут.</p>
+  </section>
+
+  <!-- О компании -->
+  <section id="about" style="padding: 2rem; max-width: 600px; margin: 0 auto;">
+    <h2>О компании</h2>
+    <p>Название организации: ООО "ДКМ-ШОП"</p>
+    <p>УНП: 19956789</p>
+    <p>Юридический адрес: г. Минск, ул. Скорины, д. 9</p>
+    <p><a href=" https://maps.app.goo.gl/phVE2JbKhVKGYJzx5 " target="_blank">Посмотреть на карте</a></p>
+  </section>
+
+  <!-- Контакты -->
+  <section id="contacts" style="padding: 2rem; max-width: 600px; margin: 2rem auto;">
+    <h2>Свяжитесь с нами</h2>
+    <p>+375336141233 (Viber/WhatsApp/Telegram)</p>
+  </section>
+
+  <!-- Футер -->
+  <footer>
+    <p>© 2025 DKM-Shop.by | Все права защищены</p>
+    <p>Бесплатная доставка по Беларуси при заказе от 100 BYN</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    const formSection = document.getElementById("formSection");
+    const successMessage = document.getElementById("successMessage");
+    const categoryInput = document.getElementById("categoryInput");
+    const currentStep = document.getElementById("currentStep");
+
+    // Открытие формы при выборе категории
+    document.querySelectorAll(".category").forEach(category => {
+      // Используем универсальное событие pointerdown
+      category.addEventListener("pointerdown", function() {
+        openForm(this.dataset.category);
+      });
+    });
+
+    function openForm(category) {
+      categoryInput.value = category;
+      currentStep.value = "1";
+      // Скрываем категории и показываем форму
+      document.getElementById("categories").style.display = "none";
+      formSection.style.display = "block";
+      // Прокручиваем к форме
+      window.scrollTo({ top: formSection.offsetTop, behavior: "smooth" });
+      // Показываем первый шаг
+      showStep(1);
+    }
+
+    // Показ нужного шага
+    function showStep(stepNumber) {
+      // Скрываем все шаги
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById(`step${i}`).style.display = "none";
+      }
+      // Показываем нужный шаг
+      document.getElementById(`step${stepNumber}`).style.display = "block";
+      currentStep.value = stepNumber;
+      // Прокручиваем к началу формы
+      formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Обработчики для кнопок "Далее"
+    document.querySelectorAll(".next-btn").forEach(button => {
+      // Используем универсальное событие pointerdown
+      button.addEventListener("pointerdown", function() {
+        const nextStep = parseInt(this.dataset.next);
+        showStep(nextStep);
+      });
+    });
+
+    // Отправка формы
+    document.getElementById("requestForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const budget = document.getElementById("budget").value;
+      const term = document.getElementById("term").value;
+      const monthlyPayment = document.getElementById("monthly_payment").value;
+      const category = categoryInput.value;
+
+      if (!name || !phone || !budget || !term || !monthlyPayment || !category) {
+        alert("Заполните все поля");
+        return;
+      }
+
+      // Здесь можно интегрировать отправку данных
+      console.log("Категория:", category);
+      console.log("Имя:", name);
+      console.log("Телефон:", "+375" + phone);
+      console.log("Бюджет:", budget);
+      console.log("Срок рассрочки:", term);
+      console.log("Ежемесячный платёж:", monthlyPayment);
+
+      // Показываем сообщение об успехе
+      formSection.style.display = "none";
+      successMessage.style.display = "block";
+      successMessage.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+
+</body>
+</html>
